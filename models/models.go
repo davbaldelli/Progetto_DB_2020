@@ -5,11 +5,11 @@ import "time"
 type Transmission string
 type Drivetrain string
 type LayoutType string
-type Sex rune
+type Sex string
 
 const (
-	Male Sex = 'M'
-	Female Sex = 'F'
+	Male   Sex = "M"
+	Female Sex = "F"
 )
 
 const (
@@ -20,7 +20,7 @@ const (
 
 const (
 	Sequential Transmission = "Sequential"
-	Manual Transmission = "Manual"
+	Manual     Transmission = "Manual"
 )
 
 const (
@@ -29,24 +29,24 @@ const (
 )
 
 type Brand struct {
-	Name string
+	Name   string
 	Nation string
 }
 
 type Car struct {
-	Model string
-	Year uint
-	Brand Brand
-	Class string
-	Drivetrain Drivetrain
+	Model        string
+	Year         uint
+	Brand        Brand
+	Class        string
+	Drivetrain   Drivetrain
 	Transmission Transmission
 }
 
 type Track struct {
-	Name string
-	Nation string
+	Name     string
+	Nation   string
 	Location string
-	Layouts []Layout
+	Layouts  []Layout
 }
 
 type Layout struct {
@@ -56,36 +56,41 @@ type Layout struct {
 }
 
 type Team struct {
-	Name string
+	Name   string
 	Nation string
 }
 
 type Driver struct {
-	Name string
-	Surname string
-	CF string
-	Sex Sex
+	Name      string
+	Surname   string
+	CF        string
+	Sex       Sex
 	Birthdate time.Time
 }
 type Race struct {
-	Name string
-	Date time.Time
-	Track Track
-	LayoutName string
+	Name             string
+	Date             time.Time
+	Track            Track
+	LayoutName       string
 	ChampionshipName string
 }
 
 type Entry struct {
-	Car Car
+	Car        Car
 	RaceNumber uint
-	Drivers []Driver
-	Team Team
+	Drivers    []Driver
+	Team       Team
 }
 
 type Championship struct {
-	Name string
-	Year uint
+	Name      string
+	Year      uint
 	EntryList []Entry
-	Races []Race
+	Races     []Race
 }
 
+type CarUsage struct {
+}
+
+type LayoutUsage struct {
+}

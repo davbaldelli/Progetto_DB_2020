@@ -6,7 +6,6 @@ type RacesController interface {
 	GetIncomingRacesByClass(class string) ([]models.Race, error)
 	GetIncomingRacesByTeam(teamName string) ([]models.Race, error)
 	GetDriversRacesByNationality(nation string) ([]models.Race, error)
-
 }
 
 type ChampionshipsController interface {
@@ -16,5 +15,14 @@ type ChampionshipsController interface {
 }
 
 type EntriesController interface {
-	GetEntryByRaceNumber(championship models.Championship, raceNumber uint) ([]models.Entry, error)
+	GetEntryByRaceNumber(championship models.Championship, raceNumber uint) (models.Entry, error)
+}
+
+type TeamController interface {
+	GetTeamsWithoutParticipationByYear(year uint) ([]models.Team, error)
+}
+
+type StatisticsController interface {
+	GetBrandCarsUsage(brandName string) ([]models.CarUsage, error)
+	GetTrackLayoutsUsage(trackName string) ([]models.LayoutUsage, error)
 }

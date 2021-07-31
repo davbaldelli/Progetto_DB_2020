@@ -1,6 +1,7 @@
 package main
 
 import (
+	"ProgettoDB/models"
 	"ProgettoDB/repository"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -17,17 +18,27 @@ func main() {
 	}
 	racesRepository := repository.RacesRepository{Db: dbase}
 	championshipsRepo := repository.ChampionshipRepository{Db: dbase}
+	entriesRepo := repository.EntriesRepository{Db: dbase}
 
-	if races, err := racesRepository.GetIncomingRacesByTeam("Frikadelli Racing Team"); err != nil{
+	if races, err := racesRepository.GetIncomingRacesByTeam("Frikadelli Racing Team"); err != nil {
 		log.Fatal(err)
 	} else {
 		log.Print(races)
 	}
 
-	if champs, err := championshipsRepo.GetDriversChampionshipsByNationality("Italy"); err != nil{
+	if champs, err := championshipsRepo.GetDriversChampionshipsByNationality("Italy"); err != nil {
 		log.Fatal(err)
 	} else {
 		log.Print(champs)
+	}
+
+	if entry, err := entriesRepo.GetEntryByRaceNumber(models.Championship{
+		Name: "GT World Challenge Europe",
+		Year: 2021,
+	}, 51); err != nil {
+		log.Fatal(err)
+	} else {
+		log.Print(entry)
 	}
 
 }
