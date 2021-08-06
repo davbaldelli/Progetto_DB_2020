@@ -42,19 +42,18 @@ type Track struct {
 }
 
 type Driver struct {
-	Cf        string
+	Cf        string `gorm:"primaryKey"`
 	Name      string
 	Surname   string
 	Birthdate time.Time
 	Nation    string
 	Sex       models.Sex
-	Entries   []Entry `gorm:"many2many:driver_entries;joinForeignKey:driver"`
 }
 
 type CarClass struct {
-	Id            uint
+	Id            uint `gorm:"primaryKey"`
 	Name          string
-	Cars          []Car          `gorm:"foreignKey:Class"`
+	Cars          []Car          `gorm:"foreignKey:class"`
 	Championships []Championship `gorm:"many2many:championship_classes;joinForeignKey:class"`
 }
 
@@ -66,13 +65,15 @@ type Car struct {
 	Class        string
 	Drivetrain   models.Drivetrain
 	Transmission models.Transmission
+	Entries      []Entry
 }
 
 type Entry struct {
-	Id           uint
-	Championship uint
-	RaceNumber   uint
+	Id           uint `gorm:"primaryKey"`
+	Championship uint `gorm:"index:,unique"`
+	RaceNumber   uint `gorm:"index:,unique"`
 	Team         string
+	Car          int      `gorm:"foreignKey:car"`
 	Drivers      []Driver `gorm:"many2many:driver_entries;joinForeignKey:entry"`
 }
 

@@ -19,8 +19,9 @@ func main() {
 	racesRepository := repository.RacesRepository{Db: dbase}
 	championshipsRepo := repository.ChampionshipRepository{Db: dbase}
 	entriesRepo := repository.EntriesRepository{Db: dbase}
+	statisticsRepo := repository.StatisticsRepository{Db: dbase}
 
-	if races, err := racesRepository.GetIncomingRacesByTeam("Frikadelli Racing Team"); err != nil {
+	if races, err := racesRepository.GetChampionshipRaces(models.Championship{Name: "GT World Challenge Europe", Year: 2021}); err != nil {
 		log.Fatal(err)
 	} else {
 		log.Print(races)
@@ -32,13 +33,19 @@ func main() {
 		log.Print(champs)
 	}
 
-	if entry, err := entriesRepo.GetEntryByRaceNumber(models.Championship{
+	if entry, err := entriesRepo.GetChampionshipEntryList(models.Championship{
 		Name: "GT World Challenge Europe",
 		Year: 2021,
-	}, 51); err != nil {
+	}); err != nil {
 		log.Fatal(err)
 	} else {
 		log.Print(entry)
+	}
+
+	if stats, err := statisticsRepo.GetBrandCarsUsage("Ferrari"); err != nil {
+		log.Fatal(err)
+	} else {
+		log.Print(stats)
 	}
 
 }

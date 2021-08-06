@@ -87,10 +87,27 @@ type Championship struct {
 	Year      uint
 	EntryList []Entry
 	Races     []Race
+	Classes   []CarClass
 }
 
 type CarUsage struct {
+	Model        string
+	Year         uint
+	Brand        string
+	Class        string
+	Drivetrain   Drivetrain
+	Transmission Transmission
+	Usage        uint
 }
 
 type LayoutUsage struct {
+	Track     string
+	Name      string
+	Length    uint
+	TrackType LayoutType
+	Usage     uint
+}
+
+type CarClass struct {
+	Name string
 }

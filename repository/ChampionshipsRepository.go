@@ -10,12 +10,17 @@ type ChampionshipRepository struct {
 }
 
 func dbChampionshipToEntity(championship Championship) models.Championship {
- return models.Championship{
-	 Name:      championship.Name,
-	 Year:      championship.Year,
-	 EntryList: nil,
-	 Races:     nil,
- }
+	var classes []models.CarClass
+	for _, class := range championship.Classes {
+		classes = append(classes, models.CarClass{Name: class.Name})
+	}
+	return models.Championship{
+		Name:      championship.Name,
+		Year:      championship.Year,
+		EntryList: nil,
+		Races:     nil,
+		Classes:   classes,
+	}
 }
 
 func (c ChampionshipRepository) GetDriverChampionships(driver models.Driver) ([]models.Championship, error) {
@@ -28,7 +33,7 @@ func (c ChampionshipRepository) GetDriverChampionships(driver models.Driver) ([]
 		Joins("join championships on championships.id = entries.championship").
 		Preload("Races").
 		Preload("Entries").
-		Find(&dbChamps).Error ; err != nil{
+		Find(&dbChamps).Error; err != nil {
 		return nil, err
 	}
 
@@ -48,7 +53,7 @@ func (c ChampionshipRepository) GetIncomingChampionshipsByTeam(team models.Team)
 		Joins("join championships on championships.id = entries.championship").
 		Preload("Races").
 		Preload("Entries").
-		Find(&dbChamps).Error ; err != nil{
+		Find(&dbChamps).Error; err != nil {
 		return nil, err
 	}
 
@@ -70,16 +75,23 @@ func (c ChampionshipRepository) GetDriversChampionshipsByNationality(nation stri
 		Joins("join championships on championships.id = entries.championship").
 		Preload("Races").
 		Preload("Entries").
-		Find(&dbChamps).Error ; err != nil{
+		Preload("Classes").
+		Find(&dbChamps).Error; err != nil {
 		return nil, err
 	}
 
 	var champs []models.Championship
 
 	for _, dbChamp := range dbChamps {
+		var dbClasses []CarClass
+		if err := c.Db.Table("championship_classes").
+			Select("championship_classes.class AS name").
+			Where("championship_classes.championship = ?", dbChamp.Id).
+			Find(&dbClasses).Error; err != nil {
+			return nil, err
+		}
+		dbChamp.Classes = dbClasses
 		champs = append(champs, dbChampionshipToEntity(dbChamp))
 	}
 	return champs, nil
 }
-
-
