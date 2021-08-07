@@ -38,7 +38,7 @@ type Track struct {
 	Name     string
 	Nation   string
 	Location string
-	Layouts  []Layout `gorm:"foreignKey:Track"`
+	Layouts  []Layout `gorm:"foreignKey:Track;references:Name"`
 }
 
 type Driver struct {
@@ -48,12 +48,13 @@ type Driver struct {
 	Birthdate time.Time
 	Nation    string
 	Sex       models.Sex
+	Entries   []Entry `gorm:"many2many:driver_entries;joinForeignKey:driver"`
 }
 
 type CarClass struct {
 	Id            uint `gorm:"primaryKey"`
 	Name          string
-	Cars          []Car          `gorm:"foreignKey:class"`
+	Cars          []Car          `gorm:"foreignKey:Class"`
 	Championships []Championship `gorm:"many2many:championship_classes;joinForeignKey:class"`
 }
 
@@ -65,14 +66,14 @@ type Car struct {
 	Class        string
 	Drivetrain   models.Drivetrain
 	Transmission models.Transmission
-	Entries      []Entry
+	Entries      []Entry `gorm:"foreignKey:Car"`
 }
 
 type Entry struct {
 	Id           uint `gorm:"primaryKey"`
-	Championship uint `gorm:"index:,unique"`
-	RaceNumber   uint `gorm:"index:,unique"`
-	Team         string
+	Championship uint
+	RaceNumber   uint
+	Team         string   `gorm:"foreignKey:team"`
 	Car          int      `gorm:"foreignKey:car"`
 	Drivers      []Driver `gorm:"many2many:driver_entries;joinForeignKey:entry"`
 }
@@ -91,10 +92,10 @@ type Race struct {
 }
 
 type Championship struct {
-	Id      uint
+	Id      uint `gorm:"primaryKey"`
 	Name    string
 	Year    uint
-	Entries []Entry    `gorm:"foreignKey:championship"`
+	Entries []Entry    `gorm:"foreignKey:championship; references:Id"`
 	Races   []Race     `gorm:"foreignKey:championship"`
 	Classes []CarClass `gorm:"many2many:championship_classes;joinForeignKey:championship"`
 }

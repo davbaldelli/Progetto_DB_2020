@@ -67,15 +67,14 @@ func (c ChampionshipRepository) GetIncomingChampionshipsByTeam(team models.Team)
 
 func (c ChampionshipRepository) GetDriversChampionshipsByNationality(nation string) ([]models.Championship, error) {
 	var dbChamps []Championship
-	if err := c.Db.Table("drivers").Distinct().
-		Where("drivers.nation = ?", nation).
-		Select("championships.*").
-		Joins("join driver_entries on drivers.cf = driver_entries.driver").
-		Joins("join entries on  driver_entries.entry = entries.id").
-		Joins("join championships on championships.id = entries.championship").
+	if err := c.Db.Distinct().
 		Preload("Races").
 		Preload("Entries").
 		Preload("Classes").
+		Joins("join entries on championships.id = entries.championship").
+		Joins("join driver_entries on  driver_entries.entry = entries.id").
+		Joins("join drivers on drivers.cf = driver_entries.driver").
+		Where("drivers.nation = ?", nation).
 		Find(&dbChamps).Error; err != nil {
 		return nil, err
 	}
