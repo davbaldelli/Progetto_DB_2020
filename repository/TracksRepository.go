@@ -12,7 +12,7 @@ type TracksRepository struct {
 func (t TracksRepository) GetAllTracks() ([]models.Track, error) {
 	var dbTracks []Track
 
-	if err := t.Db.Debug().Preload("Layouts").Find(&dbTracks).Error; err != nil {
+	if err := t.Db.Preload("Layouts").Find(&dbTracks).Error; err != nil {
 		return nil, err
 	}
 

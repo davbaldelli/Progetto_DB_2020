@@ -24,6 +24,7 @@ func main() {
 	driversRepo := repository.DriverRepository{Db: dbase}
 	brandsRepo := repository.ManufacturerRepository{Db: dbase}
 	tracksRepo := repository.TracksRepository{Db: dbase}
+	teamsRepo := repository.TeamsRepository{Db: dbase}
 
 	if races, err := racesRepository.GetChampionshipRaces(models.Championship{Name: "GT World Challenge Europe", Year: 2021}); err != nil {
 		log.Fatal(err)
@@ -71,6 +72,12 @@ func main() {
 		log.Fatal(err)
 	} else {
 		log.Print(tracks)
+	}
+
+	if teams, err := teamsRepo.GetTeamsWithoutParticipationByYear(2021); err != nil {
+		log.Fatal(err)
+	} else {
+		log.Print(teams)
 	}
 
 }
