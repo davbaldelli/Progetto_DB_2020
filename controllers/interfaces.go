@@ -3,16 +3,17 @@ package controllers
 import "ProgettoDB/models"
 
 type RacesController interface {
-	GetIncomingRacesByClass(class string) ([]models.Race, error)
-	GetIncomingRacesByTeam(teamName string) ([]models.Race, error)
+	GetRacesByClass(class string) ([]models.Race, error)
+	GetRacesByTeam(teamName string) ([]models.Race, error)
 	GetDriversRacesByNationality(nation string) ([]models.Race, error)
 	GetChampionshipRaces(championship models.Championship) ([]models.Race, error)
 }
 
 type ChampionshipsController interface {
 	GetDriverChampionships(driver models.Driver) ([]models.Championship, error)
-	GetIncomingChampionshipsByTeam(team models.Team) ([]models.Championship, error)
+	GetChampionshipsByTeam(team models.Team) ([]models.Championship, error)
 	GetDriversChampionshipsByNationality(nation string) ([]models.Championship, error)
+	GetAllChampionships() ([]models.Championship, error)
 }
 
 type EntriesController interface {
@@ -31,7 +32,7 @@ type StatisticsController interface {
 }
 
 type ClassesController interface {
-	GetAllCLasses() ([]models.CarClass, error)
+	GetAllClasses() ([]models.CarClass, error)
 }
 
 type DriversController interface {
@@ -48,4 +49,8 @@ type ManufacturersController interface {
 
 type TracksController interface {
 	GetAllTracks() ([]models.Track, error)
+}
+
+type CarController interface {
+	GetChampionshipCars(championship models.Championship) ([]models.Car, error)
 }

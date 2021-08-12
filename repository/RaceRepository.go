@@ -41,7 +41,7 @@ func (r RacesRepository) GetChampionshipRaces(championship models.Championship) 
 
 }
 
-func (r RacesRepository) GetIncomingRacesByClass(class string) ([]models.Race, error) {
+func (r RacesRepository) GetRacesByClass(class string) ([]models.Race, error) {
 	var dbRaces []Race
 	if err := r.Db.
 		Table("championship_classes").
@@ -63,7 +63,7 @@ func (r RacesRepository) GetIncomingRacesByClass(class string) ([]models.Race, e
 	return races, nil
 }
 
-func (r RacesRepository) GetIncomingRacesByTeam(teamName string) ([]models.Race, error) {
+func (r RacesRepository) GetRacesByTeam(teamName string) ([]models.Race, error) {
 	var dbRaces []Race
 	if err := r.Db.Table("entries").Distinct().
 		Where("team = ?", teamName).

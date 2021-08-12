@@ -23,6 +23,20 @@ func dbChampionshipToEntity(championship Championship) models.Championship {
 	}
 }
 
+func (c ChampionshipRepository) GetAllChampionships() ([]models.Championship, error) {
+	var dbChamps []Championship
+	if err := c.Db.Find(&dbChamps).Error; err != nil {
+		return nil, err
+	}
+
+	var champs []models.Championship
+
+	for _, dbChamp := range dbChamps {
+		champs = append(champs, dbChampionshipToEntity(dbChamp))
+	}
+	return champs, nil
+}
+
 func (c ChampionshipRepository) GetDriverChampionships(driver models.Driver) ([]models.Championship, error) {
 	var dbChamps []Championship
 	if err := c.Db.Table("drivers").Distinct().
@@ -45,7 +59,7 @@ func (c ChampionshipRepository) GetDriverChampionships(driver models.Driver) ([]
 	return champs, nil
 }
 
-func (c ChampionshipRepository) GetIncomingChampionshipsByTeam(team models.Team) ([]models.Championship, error) {
+func (c ChampionshipRepository) GetChampionshipsByTeam(team models.Team) ([]models.Championship, error) {
 	var dbChamps []Championship
 	if err := c.Db.Table("entries").Distinct().
 		Where("entries.team = ?", team.Name).
