@@ -101,11 +101,11 @@ type CarUsage struct {
 }
 
 type LayoutUsage struct {
-	Track     string
-	Name      string
-	Length    uint
-	TrackType LayoutType
-	Usage     uint
+	Track  string
+	Name   string
+	Length uint
+	Type   LayoutType
+	Usage  uint
 }
 
 type CarClass struct {
