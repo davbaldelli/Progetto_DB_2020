@@ -12,7 +12,7 @@ type CarRepository struct {
 func (c CarRepository) GetChampionshipCars(championship models.Championship) ([]models.Car, error) {
 	var dbCars []Car
 
-	if err := c.Db.
+	if err := c.Db.Debug().
 		Joins("JOIN entries ON cars.id = entries.car").
 		Joins("JOIN championships ON championships.id = entries.championship").
 		Where("championships.name = ? AND championships.year = ?", championship.Name, championship.Year).
