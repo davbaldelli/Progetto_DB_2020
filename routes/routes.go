@@ -19,6 +19,10 @@ type Web struct {
 	TeamsHandler         handlers.TeamsHandler
 	StatisticsHandler    handlers.StatisticsHandler
 	CarHandler           handlers.CarHandler
+	ClassesHandler       handlers.ClassesHandler
+	TracksHandler        handlers.TracksHandler
+	ManufacturersHandler handlers.ManufacturersHandler
+	DriversHandler       handlers.DriversHandler
 }
 
 func (w Web) Listen() {
@@ -29,6 +33,7 @@ func (w Web) Listen() {
 	router.HandleFunc("/championship/driver/{cf}", w.ChampionshipsHandler.GETDriverChampionships).Methods("GET")
 	router.HandleFunc("/championship/team/{team}", w.ChampionshipsHandler.GETTeamChampionships).Methods("GET")
 	router.HandleFunc("/championship/nation/driver/{nation}", w.ChampionshipsHandler.GETDriversChampionshipsByNation).Methods("GET")
+	router.HandleFunc("/championship/class/{class}", w.ChampionshipsHandler.GETChampionshipsByClass).Methods("GET")
 
 	router.HandleFunc("/race/championship/{name}/{year}", w.RacesHandler.GETRacesByChampionship).Methods("GET")
 	router.HandleFunc("/race/team/{team}", w.RacesHandler.GETRacesByTeam).Methods("GET")
@@ -45,6 +50,14 @@ func (w Web) Listen() {
 	router.HandleFunc("/statistic/brand/car/usage/{brand}", w.StatisticsHandler.GETBrandsCarsUsage).Methods("GET")
 
 	router.HandleFunc("/car/championship/{name}/{year}", w.CarHandler.GETChampionshipCars).Methods("GET")
+
+	router.HandleFunc("/class/all", w.ClassesHandler.GETAllClasses).Methods("GET")
+
+	router.HandleFunc("/drivers/all", w.DriversHandler.GETAllDrivers).Methods("GET")
+
+	router.HandleFunc("/tracks/all", w.TracksHandler.GETAllTracks).Methods("GET")
+
+	router.HandleFunc("/manufacturer/all", w.ManufacturersHandler.GETAllManufacturers).Methods("GET")
 
 	c := cors.New(cors.Options{
 		AllowedOrigins:   []string{"*"},

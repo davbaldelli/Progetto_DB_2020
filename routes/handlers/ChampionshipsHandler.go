@@ -82,3 +82,24 @@ func (c ChampionshipsHandler) GETDriversChampionshipsByNation(writer http.Respon
 	}
 
 }
+
+func (c ChampionshipsHandler) GETChampionshipsByClass(writer http.ResponseWriter, request *http.Request) {
+	params := mux.Vars(request)
+	param := params["class"]
+
+	if param == "" {
+		respondError(writer, http.StatusBadRequest, fmt.Errorf("missing param class"))
+		return
+	}
+
+	if champs, err := c.Ctrl.GetChampionshipsByClass(param); err != nil {
+		if err.Error() == "not found" {
+			respondError(writer, http.StatusNotFound, err)
+		} else {
+			respondError(writer, http.StatusInternalServerError, err)
+		}
+	} else {
+		respondJSON(writer, http.StatusOK, champs)
+	}
+
+}

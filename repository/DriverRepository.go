@@ -24,6 +24,7 @@ func (d DriverRepository) GetAllDrivers() ([]models.Driver, error) {
 			CF:        driver.Cf,
 			Sex:       driver.Sex,
 			Birthdate: driver.Birthdate,
+			Nation:    driver.Nation,
 		})
 	}
 

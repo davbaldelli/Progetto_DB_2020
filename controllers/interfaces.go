@@ -14,6 +14,7 @@ type ChampionshipsController interface {
 	GetChampionshipsByTeam(team models.Team) ([]models.Championship, error)
 	GetDriversChampionshipsByNationality(nation string) ([]models.Championship, error)
 	GetAllChampionships() ([]models.Championship, error)
+	GetChampionshipsByClass(class string) ([]models.Championship, error)
 }
 
 type EntriesController interface {

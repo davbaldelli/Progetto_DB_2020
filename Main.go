@@ -21,12 +21,12 @@ func main() {
 	championshipsHandler := handlers.ChampionshipsHandler{Ctrl: repository.ChampionshipRepository{Db: dbase}}
 	entriesHandler := handlers.EntriesHandler{Ctrl: repository.EntriesRepository{Db: dbase}}
 	statisticsHandler := handlers.StatisticsHandler{Ctrl: repository.StatisticsRepository{Db: dbase}}
-	//classesRepo := repository.ClassesRepository{Db: dbase}
-	//driversRepo := repository.DriverRepository{Db: dbase}
-	//brandsRepo := repository.ManufacturerRepository{Db: dbase}
+	classesHandler := handlers.ClassesHandler{Ctrl: repository.ClassesRepository{Db: dbase}}
+	driversHandler := handlers.DriversHandler{Ctrl: repository.DriverRepository{Db: dbase}}
+	brandsHandler := handlers.ManufacturersHandler{Ctrl: repository.ManufacturerRepository{Db: dbase}}
 	teamsHandler := handlers.TeamsHandler{Ctrl: repository.TeamsRepository{Db: dbase}}
-	//teamsRepo := repository.TeamsRepository{Db: dbase}
 	carsHandler := handlers.CarHandler{Ctrl: repository.CarRepository{Db: dbase}}
+	tracksHandler := handlers.TracksHandler{Ctrl: repository.TracksRepository{Db: dbase}}
 
 	web := routes.Web{
 		ChampionshipsHandler: championshipsHandler,
@@ -35,6 +35,10 @@ func main() {
 		TeamsHandler:         teamsHandler,
 		StatisticsHandler:    statisticsHandler,
 		CarHandler:           carsHandler,
+		ClassesHandler:       classesHandler,
+		DriversHandler:       driversHandler,
+		ManufacturersHandler: brandsHandler,
+		TracksHandler:        tracksHandler,
 	}
 
 	web.Listen()

@@ -66,6 +66,7 @@ type Driver struct {
 	CF        string
 	Sex       Sex
 	Birthdate time.Time
+	Nation    string
 }
 type Race struct {
 	Name             string
