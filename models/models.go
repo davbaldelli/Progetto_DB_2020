@@ -68,6 +68,11 @@ type Driver struct {
 	Birthdate time.Time
 	Nation    string
 }
+
+type DriverRaces struct {
+	Driver
+	Races int
+}
 type Race struct {
 	Name             string
 	Date             time.Time
@@ -107,6 +112,13 @@ type LayoutUsage struct {
 	Length uint
 	Type   LayoutType
 	Usage  uint
+}
+
+type TrackUsage struct {
+	Name     string
+	Nation   string
+	Location string
+	Usage    string
 }
 
 type CarClass struct {

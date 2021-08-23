@@ -9,11 +9,7 @@ type DriverRepository struct {
 	Db *gorm.DB
 }
 
-func (d DriverRepository) GetAllDrivers() ([]models.Driver, error) {
-	var dbDrivers []Driver
-	if err := d.Db.Find(&dbDrivers).Error; err != nil {
-		return nil, err
-	}
+func dbDriversToModels(dbDrivers []Driver) []models.Driver {
 
 	var drivers []models.Driver
 
@@ -26,6 +22,34 @@ func (d DriverRepository) GetAllDrivers() ([]models.Driver, error) {
 			Birthdate: driver.Birthdate,
 			Nation:    driver.Nation,
 		})
+	}
+
+	return drivers
+}
+
+func (d DriverRepository) GetAllDrivers() ([]models.Driver, error) {
+	var dbDrivers []Driver
+	if err := d.Db.Find(&dbDrivers).Error; err != nil {
+		return nil, err
+	}
+
+	return dbDriversToModels(dbDrivers), nil
+}
+
+func (d DriverRepository) GetFiveDriversWithMoreRaces() ([]models.DriverRaces, error) {
+
+	var drivers []models.DriverRaces
+	if err := d.Db.Table("drivers").
+		Select("drivers.*", "COUNT(races.id) AS `races`").
+		Joins("LEFT JOIN driver_entries ON drivers.cf = driver_entries.driver").
+		Joins("LEFT JOIN entries ON driver_entries.entry = entries.id").
+		Joins("LEFT JOIN championships ON entries.championship = championships.id").
+		Joins("LEFT JOIN races ON races.championship = championships.id").
+		Group("drivers.cf").
+		Order("`races` DESC").
+		Limit(10).
+		Find(&drivers).Error; err != nil {
+		return nil, err
 	}
 
 	return drivers, nil

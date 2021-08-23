@@ -12,7 +12,7 @@ type TeamsHandler struct {
 	Ctrl controllers.TeamController
 }
 
-func (t TeamsHandler) GETAllTeams(writer http.ResponseWriter, request *http.Request) {
+func (t TeamsHandler) GETAllTeams(writer http.ResponseWriter, _ *http.Request) {
 	if champs, err := t.Ctrl.GetAllTeams(); err != nil {
 		respondError(writer, http.StatusInternalServerError, err)
 	} else {

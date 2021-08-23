@@ -38,7 +38,8 @@ func dbRaceToEntity(dbRace Race) models.Race {
 
 func (r RacesRepository) GetChampionshipRaces(championship models.Championship) ([]models.Race, error) {
 	return r.selectRacesWithQuery(func(dbRaces *[]Race) *gorm.DB {
-		return r.Db.Select("races.name, races.datetime", "championships.name AS championship", "tracks.name AS track", "layouts.name AS layout", "tracks.nation as track_nation", "tracks.location as track_location").
+		return r.Db.
+			Select("races.name, races.datetime", "championships.name AS championship", "tracks.name AS track", "layouts.name AS layout", "tracks.nation as track_nation", "tracks.location as track_location").
 			Where("championships.name = ? AND championships.year = ?", championship.Name, championship.Year).
 			Joins("join championships ON championships.id = races.championship").
 			Joins("join layouts ON layouts.id = races.layout").
@@ -62,25 +63,9 @@ func (r RacesRepository) GetRacesByClass(class string) ([]models.Race, error) {
 }
 
 func (r RacesRepository) GetRacesByTeam(teamName string) ([]models.Race, error) {
-	var dbRaces []Race
-	if err := r.Db.Distinct().
-		Select("races.name, races.datetime", "championships.name AS championship", "tracks.name AS track", "layouts.name AS layout", "tracks.nation as track_nation", "tracks.location as track_location").
-		Joins("join championships on races.championship = championships.id").
-		Joins("join entries on championships.id = entries.championship").
-		Joins("join layouts ON layouts.id = races.layout").
-		Joins("join tracks ON layouts.track = tracks.name").
-		Where("team = ?", teamName).
-		Find(&dbRaces).Error; err != nil {
-		return nil, err
-	}
-
-	var races []models.Race
-
-	for _, dbRace := range dbRaces {
-		races = append(races, dbRaceToEntity(dbRace))
-	}
 	return r.selectRacesWithQuery(func(dbRaces *[]Race) *gorm.DB {
-		return r.Db.Distinct().
+		return r.Db.
+			Distinct().
 			Select("races.name, races.datetime", "championships.name AS championship", "tracks.name AS track", "layouts.name AS layout", "tracks.nation as track_nation", "tracks.location as track_location").
 			Joins("join championships on races.championship = championships.id").
 			Joins("join entries on championships.id = entries.championship").
@@ -93,7 +78,8 @@ func (r RacesRepository) GetRacesByTeam(teamName string) ([]models.Race, error) 
 
 func (r RacesRepository) GetDriversRacesByNationality(nation string) ([]models.Race, error) {
 	return r.selectRacesWithQuery(func(dbRaces *[]Race) *gorm.DB {
-		return r.Db.Distinct().
+		return r.Db.
+			Distinct().
 			Select("races.name, races.datetime", "championships.name AS championship", "tracks.name AS track", "layouts.name AS layout", "tracks.nation as track_nation", "tracks.location as track_location").
 			Joins("join championships on races.championship = championships.id").
 			Joins("join entries on championships.id = entries.championship").

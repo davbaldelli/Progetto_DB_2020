@@ -34,3 +34,17 @@ func (s StatisticsRepository) GetTrackLayoutsUsage(trackName string) ([]models.L
 	}
 	return statistics, nil
 }
+
+func (s StatisticsRepository) GetTheFiveMostUsedTracks() ([]models.TrackUsage, error) {
+	var statistics []models.TrackUsage
+
+	if err := s.Db.Table("tracks").
+		Select("tracks.*", "count(races.id) as `usage`").
+		Joins("LEFT JOIN layouts ON layouts.track = tracks.name").
+		Joins("LEFT JOIN races ON races.layout = layouts.id").
+		Group("tracks.name").Order("`usage` DESC").Limit(5).Find(&statistics).Error; err != nil {
+		return nil, err
+	} else {
+		return statistics, nil
+	}
+}

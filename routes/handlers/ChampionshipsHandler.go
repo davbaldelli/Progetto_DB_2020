@@ -12,7 +12,7 @@ type ChampionshipsHandler struct {
 	Ctrl controllers.ChampionshipsController
 }
 
-func (c ChampionshipsHandler) GETAllChampionships(writer http.ResponseWriter, request *http.Request) {
+func (c ChampionshipsHandler) GETAllChampionships(writer http.ResponseWriter, _ *http.Request) {
 	if champs, err := c.Ctrl.GetAllChampionships(); err != nil {
 		respondError(writer, http.StatusInternalServerError, err)
 	} else {

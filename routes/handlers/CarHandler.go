@@ -44,3 +44,25 @@ func (c CarHandler) GETChampionshipCars(writer http.ResponseWriter, request *htt
 	}
 
 }
+
+func (c CarHandler) GETDriverCarsOnTrack(writer http.ResponseWriter, request *http.Request) {
+	params := mux.Vars(request)
+	driver := params["driver"]
+	track := params["track"]
+
+	if driver == "" {
+		respondError(writer, http.StatusBadRequest, fmt.Errorf("missing param driver"))
+		return
+	}
+
+	if track == "" {
+		respondError(writer, http.StatusBadRequest, fmt.Errorf("missing param track"))
+		return
+	}
+
+	if drivers, err := c.Ctrl.GetDriverCarOnCircuit(models.Driver{CF: driver}, models.Track{Name: track}); err != nil {
+		respondError(writer, http.StatusInternalServerError, err)
+	} else {
+		respondJSON(writer, http.StatusOK, drivers)
+	}
+}

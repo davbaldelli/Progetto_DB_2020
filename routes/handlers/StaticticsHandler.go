@@ -50,3 +50,15 @@ func (s StatisticsHandler) GETTrackLayoutsUsage(writer http.ResponseWriter, requ
 		respondJSON(writer, http.StatusOK, statistics)
 	}
 }
+
+func (s StatisticsHandler) GETMostFiveUsedTracks(writer http.ResponseWriter, _ *http.Request) {
+	if statistics, err := s.Ctrl.GetTheFiveMostUsedTracks(); err != nil {
+		if err.Error() == "not found" {
+			respondError(writer, http.StatusNotFound, err)
+		} else {
+			respondError(writer, http.StatusInternalServerError, err)
+		}
+	} else {
+		respondJSON(writer, http.StatusOK, statistics)
+	}
+}

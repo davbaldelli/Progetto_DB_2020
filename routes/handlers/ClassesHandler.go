@@ -9,7 +9,7 @@ type ClassesHandler struct {
 	Ctrl controllers.ClassesController
 }
 
-func (c ClassesHandler) GETAllClasses(writer http.ResponseWriter, request *http.Request) {
+func (c ClassesHandler) GETAllClasses(writer http.ResponseWriter, _ *http.Request) {
 	if classes, err := c.Ctrl.GetAllClasses(); err != nil {
 		respondError(writer, http.StatusInternalServerError, err)
 	} else {

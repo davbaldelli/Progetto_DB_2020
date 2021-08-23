@@ -89,7 +89,8 @@ func (c ChampionshipRepository) GetDriversChampionshipsByNationality(nation stri
 
 func (c ChampionshipRepository) GetChampionshipsByClass(class string) ([]models.Championship, error) {
 	return c.selectChampionshipsWithQuery(func(dbChamps *[]Championship) *gorm.DB {
-		return c.Db.Joins("join championship_classes on championship_classes.championship = championships.id").
+		return c.Db.
+			Joins("join championship_classes on championship_classes.championship = championships.id").
 			Where("championship_classes.class = ?", class).Find(&dbChamps)
 	})
 }

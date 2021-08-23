@@ -30,6 +30,7 @@ type TeamController interface {
 type StatisticsController interface {
 	GetBrandCarsUsage(brandName string) ([]models.CarUsage, error)
 	GetTrackLayoutsUsage(trackName string) ([]models.LayoutUsage, error)
+	GetTheFiveMostUsedTracks() ([]models.TrackUsage, error)
 }
 
 type ClassesController interface {
@@ -38,6 +39,7 @@ type ClassesController interface {
 
 type DriversController interface {
 	GetAllDrivers() ([]models.Driver, error)
+	GetFiveDriversWithMoreRaces() ([]models.DriverRaces, error)
 }
 
 type NationsController interface {
@@ -53,5 +55,6 @@ type TracksController interface {
 }
 
 type CarController interface {
-	GetChampionshipCars(championship models.Championship) ([]models.Car, error)
+	GetChampionshipCars(models.Championship) ([]models.Car, error)
+	GetDriverCarOnCircuit(models.Driver, models.Track) ([]models.Car, error)
 }
