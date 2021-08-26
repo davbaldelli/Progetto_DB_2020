@@ -15,14 +15,14 @@ type RacesHandler struct {
 
 func (r RacesHandler) GETRacesByClass(writer http.ResponseWriter, request *http.Request) {
 	params := mux.Vars(request)
-	param := params["class"]
+	class := params["class"]
 
-	if param == "" {
+	if class == "" {
 		respondError(writer, http.StatusBadRequest, fmt.Errorf("missing param class"))
 		return
 	}
 
-	if races, err := r.Ctrl.GetRacesByClass(param); err != nil {
+	if races, err := r.Ctrl.GetRacesByClass(class); err != nil {
 		if err.Error() == "not found" {
 			respondError(writer, http.StatusNotFound, err)
 		} else {
@@ -35,14 +35,14 @@ func (r RacesHandler) GETRacesByClass(writer http.ResponseWriter, request *http.
 
 func (r RacesHandler) GETRacesByTeam(writer http.ResponseWriter, request *http.Request) {
 	params := mux.Vars(request)
-	param := params["team"]
+	team := params["team"]
 
-	if param == "" {
+	if team == "" {
 		respondError(writer, http.StatusBadRequest, fmt.Errorf("missing param team"))
 		return
 	}
 
-	if races, err := r.Ctrl.GetRacesByTeam(param); err != nil {
+	if races, err := r.Ctrl.GetRacesByTeam(team); err != nil {
 		if err.Error() == "not found" {
 			respondError(writer, http.StatusNotFound, err)
 		} else {
@@ -55,14 +55,14 @@ func (r RacesHandler) GETRacesByTeam(writer http.ResponseWriter, request *http.R
 
 func (r RacesHandler) GETRacesByDriversNation(writer http.ResponseWriter, request *http.Request) {
 	params := mux.Vars(request)
-	param := params["nation"]
+	nation := params["nation"]
 
-	if param == "" {
+	if nation == "" {
 		respondError(writer, http.StatusBadRequest, fmt.Errorf("missing param nation"))
 		return
 	}
 
-	if races, err := r.Ctrl.GetDriversRacesByNationality(param); err != nil {
+	if races, err := r.Ctrl.GetDriversRacesByNationality(nation); err != nil {
 		if err.Error() == "not found" {
 			respondError(writer, http.StatusNotFound, err)
 		} else {

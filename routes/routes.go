@@ -23,6 +23,7 @@ type Web struct {
 	TracksHandler        handlers.TracksHandler
 	ManufacturersHandler handlers.ManufacturersHandler
 	DriversHandler       handlers.DriversHandler
+	NationsHandler		 handlers.NationsHandler
 }
 
 func (w Web) Listen() {
@@ -48,19 +49,21 @@ func (w Web) Listen() {
 
 	router.HandleFunc("/statistic/track/layout/usage/{track}", w.StatisticsHandler.GETTrackLayoutsUsage).Methods("GET")
 	router.HandleFunc("/statistic/brand/car/usage/{brand}", w.StatisticsHandler.GETBrandsCarsUsage).Methods("GET")
-	router.HandleFunc("/statistics/mostusedtracks", w.StatisticsHandler.GETMostFiveUsedTracks).Methods("GET")
+	router.HandleFunc("/statistic/mostusedtracks", w.StatisticsHandler.GETMostFiveUsedTracks).Methods("GET")
 
 	router.HandleFunc("/car/championship/{name}/{year}", w.CarHandler.GETChampionshipCars).Methods("GET")
-	router.HandleFunc("/car/driver/track/{driver}/{track}", w.CarHandler.GETDriverCarsOnTrack).Methods("GET")
+	router.HandleFunc("/car/driver/{driver}/track/{track}", w.CarHandler.GETDriverCarsOnTrack).Methods("GET")
 
 	router.HandleFunc("/class/all", w.ClassesHandler.GETAllClasses).Methods("GET")
 
-	router.HandleFunc("/drivers/all", w.DriversHandler.GETAllDrivers).Methods("GET")
-	router.HandleFunc("/drivers/fivewithmoreraces", w.DriversHandler.GETFiveDriversWithMoreRaces).Methods("GET")
+	router.HandleFunc("/driver/all", w.DriversHandler.GETAllDrivers).Methods("GET")
+	router.HandleFunc("/driver/fivewithmoreraces", w.DriversHandler.GETFiveDriversWithMoreRaces).Methods("GET")
 
-	router.HandleFunc("/tracks/all", w.TracksHandler.GETAllTracks).Methods("GET")
+	router.HandleFunc("/track/all", w.TracksHandler.GETAllTracks).Methods("GET")
 
 	router.HandleFunc("/manufacturer/all", w.ManufacturersHandler.GETAllManufacturers).Methods("GET")
+
+	router.HandleFunc("/nation/all", w.NationsHandler.GETAllNations).Methods("GET")
 
 	c := cors.New(cors.Options{
 		AllowedOrigins:   []string{"*"},

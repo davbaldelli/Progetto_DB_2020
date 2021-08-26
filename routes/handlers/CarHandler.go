@@ -32,14 +32,14 @@ func (c CarHandler) GETChampionshipCars(writer http.ResponseWriter, request *htt
 		respondError(writer, http.StatusBadRequest, fmt.Errorf("wrong param year, it has to be a number"))
 		return
 	} else {
-		if statistics, err2 := c.Ctrl.GetChampionshipCars(models.Championship{Name: champ, Year: uint(year)}); err2 != nil {
+		if cars, err2 := c.Ctrl.GetChampionshipCars(models.Championship{Name: champ, Year: uint(year)}); err2 != nil {
 			if err2.Error() == "not found" {
 				respondError(writer, http.StatusNotFound, err2)
 			} else {
 				respondError(writer, http.StatusInternalServerError, err2)
 			}
 		} else {
-			respondJSON(writer, http.StatusOK, statistics)
+			respondJSON(writer, http.StatusOK, cars)
 		}
 	}
 
@@ -60,9 +60,9 @@ func (c CarHandler) GETDriverCarsOnTrack(writer http.ResponseWriter, request *ht
 		return
 	}
 
-	if drivers, err := c.Ctrl.GetDriverCarOnCircuit(models.Driver{CF: driver}, models.Track{Name: track}); err != nil {
+	if cars, err := c.Ctrl.GetDriverCarOnCircuit(models.Driver{CF: driver}, models.Track{Name: track}); err != nil {
 		respondError(writer, http.StatusInternalServerError, err)
 	} else {
-		respondJSON(writer, http.StatusOK, drivers)
+		respondJSON(writer, http.StatusOK, cars)
 	}
 }

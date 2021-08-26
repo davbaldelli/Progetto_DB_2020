@@ -22,14 +22,14 @@ func (c ChampionshipsHandler) GETAllChampionships(writer http.ResponseWriter, _ 
 
 func (c ChampionshipsHandler) GETDriverChampionships(writer http.ResponseWriter, request *http.Request) {
 	params := mux.Vars(request)
-	param := params["cf"]
+	cf := params["cf"]
 
-	if param == "" {
+	if cf == "" {
 		respondError(writer, http.StatusBadRequest, fmt.Errorf("missing param cf"))
 		return
 	}
 
-	if champs, err := c.Ctrl.GetDriverChampionships(models.Driver{CF: param}); err != nil {
+	if champs, err := c.Ctrl.GetDriverChampionships(models.Driver{CF: cf}); err != nil {
 		if err.Error() == "not found" {
 			respondError(writer, http.StatusNotFound, err)
 		} else {
@@ -43,14 +43,14 @@ func (c ChampionshipsHandler) GETDriverChampionships(writer http.ResponseWriter,
 
 func (c ChampionshipsHandler) GETTeamChampionships(writer http.ResponseWriter, request *http.Request) {
 	params := mux.Vars(request)
-	param := params["team"]
+	team := params["team"]
 
-	if param == "" {
+	if team == "" {
 		respondError(writer, http.StatusBadRequest, fmt.Errorf("missing param team"))
 		return
 	}
 
-	if champs, err := c.Ctrl.GetChampionshipsByTeam(models.Team{Name: param}); err != nil {
+	if champs, err := c.Ctrl.GetChampionshipsByTeam(models.Team{Name: team}); err != nil {
 		if err.Error() == "not found" {
 			respondError(writer, http.StatusNotFound, err)
 		} else {
@@ -64,14 +64,14 @@ func (c ChampionshipsHandler) GETTeamChampionships(writer http.ResponseWriter, r
 
 func (c ChampionshipsHandler) GETDriversChampionshipsByNation(writer http.ResponseWriter, request *http.Request) {
 	params := mux.Vars(request)
-	param := params["nation"]
+	nation := params["nation"]
 
-	if param == "" {
+	if nation == "" {
 		respondError(writer, http.StatusBadRequest, fmt.Errorf("missing param nation"))
 		return
 	}
 
-	if champs, err := c.Ctrl.GetDriversChampionshipsByNationality(param); err != nil {
+	if champs, err := c.Ctrl.GetDriversChampionshipsByNationality(nation); err != nil {
 		if err.Error() == "not found" {
 			respondError(writer, http.StatusNotFound, err)
 		} else {
