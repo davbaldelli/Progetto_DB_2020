@@ -15,6 +15,7 @@ import (
 type Credentials struct {
 	Username string
 	Password string
+	DBIP     string
 }
 
 func main() {
@@ -37,7 +38,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	dsn := cred.Username+":"+cred.Password+"@tcp(192.168.122.76:3306)/progetto_db?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := cred.Username + ":" + cred.Password + "@tcp(" + cred.DBIP + ":3306)/progetto_db?charset=utf8mb4&parseTime=True&loc=Local"
 	dbase, err1 := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err1 != nil {
@@ -69,7 +70,7 @@ func main() {
 		DriversHandler:       driversHandler,
 		ManufacturersHandler: brandsHandler,
 		TracksHandler:        tracksHandler,
-		NationsHandler: nationsHandler,
+		NationsHandler:       nationsHandler,
 	}
 
 	web.Listen()
