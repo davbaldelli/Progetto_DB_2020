@@ -23,7 +23,7 @@ type Web struct {
 	TracksHandler        handlers.TracksHandler
 	ManufacturersHandler handlers.ManufacturersHandler
 	DriversHandler       handlers.DriversHandler
-	NationsHandler		 handlers.NationsHandler
+	NationsHandler       handlers.NationsHandler
 }
 
 func (w Web) Listen() {
@@ -71,6 +71,32 @@ func (w Web) Listen() {
 	})
 
 	handler := c.Handler(router)
+
+	/*
+		certManager := autocert.Manager{
+			Prompt:     autocert.AcceptTOS,
+			HostPolicy: autocert.HostWhitelist("api.prgdb.davidebaldelli.it"),
+			Cache:      autocert.DirCache("certs"),
+		}
+
+		// create the server itself
+		server := &http.Server{
+			Addr:    ":https",
+			Handler: handler,
+			TLSConfig: &tls.Config{
+				GetCertificate: certManager.GetCertificate,
+			},
+		}
+
+		log.Printf("Serving http/https for domains: api.progdb.davidebaldelli.it")
+		go func() {
+			// serve HTTP, which will redirect automatically to HTTPS
+			h := certManager.HTTPHandler(nil)
+			log.Fatal(http.ListenAndServe(":http", h))
+		}()
+
+		log.Fatal(server.ListenAndServeTLS("", ""))
+	*/
 
 	log.Fatal(http.ListenAndServe("127.0.0.1"+
 		":1234", handler))

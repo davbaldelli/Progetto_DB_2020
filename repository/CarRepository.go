@@ -41,7 +41,7 @@ func (c CarRepository) GetChampionshipCars(championship models.Championship) ([]
 func (c CarRepository) GetDriverCarOnCircuit(driver models.Driver, track models.Track) ([]models.Car, error) {
 	var dbCars []Car
 
-	if err := c.Db.Distinct().Debug().
+	if err := c.Db.Distinct().
 		Joins("JOIN entries ON entries.car = cars.id").
 		Joins("JOIN driver_entries ON entries.id = driver_entries.entry").
 		Joins("JOIN championships ON championships.id = entries.championship").
