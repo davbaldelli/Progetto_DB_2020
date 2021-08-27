@@ -98,7 +98,7 @@ func (w Web) Listen() {
 		log.Fatal(server.ListenAndServeTLS("", ""))
 	*/
 
-	log.Fatal(http.ListenAndServe("127.0.0.1"+
+	log.Fatal(http.ListenAndServe("0.0.0.0"+
 		":1234", handler))
 
 }
