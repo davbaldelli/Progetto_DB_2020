@@ -83,14 +83,15 @@ func (Entry) TableName() string {
 }
 
 type Race struct {
-	Id            uint
-	Name          string
-	Championship  string
-	Layout        string
-	Track         string
-	TrackNation   string
-	TrackLocation string
-	Datetime      time.Time
+	Id               uint
+	Name             string
+	ChampionshipName string
+	ChampionshipYear uint
+	Layout           string
+	Track            string
+	TrackNation      string
+	TrackLocation    string
+	Datetime         time.Time
 }
 
 type Championship struct {

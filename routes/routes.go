@@ -53,6 +53,7 @@ func (w Web) Listen() {
 
 	router.HandleFunc("/car/championship/{name}/{year}", w.CarHandler.GETChampionshipCars).Methods("GET")
 	router.HandleFunc("/car/driver/{driver}/track/{track}", w.CarHandler.GETDriverCarsOnTrack).Methods("GET")
+	router.HandleFunc("/car/all", w.CarHandler.GETAllCars).Methods("GET")
 
 	router.HandleFunc("/class/all", w.ClassesHandler.GETAllClasses).Methods("GET")
 

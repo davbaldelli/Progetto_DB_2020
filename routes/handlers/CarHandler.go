@@ -13,6 +13,14 @@ type CarHandler struct {
 	Ctrl controllers.CarController
 }
 
+func (c CarHandler) GETAllCars(writer http.ResponseWriter, _ *http.Request) {
+	if cars, err := c.Ctrl.GetAllCars(); err != nil {
+		respondError(writer, http.StatusInternalServerError, err)
+	} else {
+		respondJSON(writer, http.StatusOK, cars)
+	}
+}
+
 func (c CarHandler) GETChampionshipCars(writer http.ResponseWriter, request *http.Request) {
 	params := mux.Vars(request)
 	champ := params["name"]

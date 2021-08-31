@@ -24,6 +24,16 @@ func dbCarsToModels(dbCars []Car) []models.Car {
 	return cars
 }
 
+func (c CarRepository) GetAllCars() ([]models.Car, error) {
+	var dbCars []Car
+
+	if err := c.Db.Find(&dbCars).Error; err != nil {
+		return nil, err
+	}
+
+	return dbCarsToModels(dbCars), nil
+}
+
 func (c CarRepository) GetChampionshipCars(championship models.Championship) ([]models.Car, error) {
 	var dbCars []Car
 

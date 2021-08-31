@@ -57,4 +57,5 @@ type TracksController interface {
 type CarController interface {
 	GetChampionshipCars(models.Championship) ([]models.Car, error)
 	GetDriverCarOnCircuit(models.Driver, models.Track) ([]models.Car, error)
+	GetAllCars() ([]models.Car, error)
 }

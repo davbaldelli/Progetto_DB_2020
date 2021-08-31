@@ -74,11 +74,11 @@ type DriverRaces struct {
 	Races int
 }
 type Race struct {
-	Name             string
-	Date             time.Time
-	Track            Track
-	LayoutName       string
-	ChampionshipName string
+	Name         string
+	Date         time.Time
+	Track        Track
+	LayoutName   string
+	Championship Championship
 }
 
 type Entry struct {

@@ -28,18 +28,18 @@ func (r RacesRepository) selectRacesWithQuery(query raceQuery) ([]models.Race, e
 
 func dbRaceToEntity(dbRace Race) models.Race {
 	return models.Race{
-		Name:             dbRace.Name,
-		Date:             dbRace.Datetime,
-		Track:            models.Track{Name: dbRace.Track, Nation: dbRace.TrackNation, Location: dbRace.TrackLocation},
-		LayoutName:       dbRace.Layout,
-		ChampionshipName: dbRace.Championship,
+		Name:         dbRace.Name,
+		Date:         dbRace.Datetime,
+		Track:        models.Track{Name: dbRace.Track, Nation: dbRace.TrackNation, Location: dbRace.TrackLocation},
+		LayoutName:   dbRace.Layout,
+		Championship: models.Championship{Name: dbRace.ChampionshipName, Year: dbRace.ChampionshipYear},
 	}
 }
 
 func (r RacesRepository) GetChampionshipRaces(championship models.Championship) ([]models.Race, error) {
 	return r.selectRacesWithQuery(func(dbRaces *[]Race) *gorm.DB {
 		return r.Db.
-			Select("races.name, races.datetime", "championships.name AS championship", "tracks.name AS track", "layouts.name AS layout", "tracks.nation as track_nation", "tracks.location as track_location").
+			Select("races.name, races.datetime", "championships.name AS championship_name", "championships.year AS championship_year", "tracks.name AS track", "layouts.name AS layout", "tracks.nation as track_nation", "tracks.location as track_location").
 			Where("championships.name = ? AND championships.year = ?", championship.Name, championship.Year).
 			Joins("join championships ON championships.id = races.championship").
 			Joins("join layouts ON layouts.id = races.layout").
@@ -52,7 +52,7 @@ func (r RacesRepository) GetChampionshipRaces(championship models.Championship) 
 func (r RacesRepository) GetRacesByClass(class string) ([]models.Race, error) {
 	return r.selectRacesWithQuery(func(dbRaces *[]Race) *gorm.DB {
 		return r.Db.
-			Select("races.name, races.datetime", "championships.name AS championship", "tracks.name AS track", "layouts.name AS layout", "tracks.nation as track_nation", "tracks.location as track_location").
+			Select("races.name, races.datetime", "championships.name AS championship_name", "championship.year AS championship_year", "tracks.name AS track", "layouts.name AS layout", "tracks.nation as track_nation", "tracks.location as track_location").
 			Joins("join championship_classes ON races.championship = championship_classes.championship").
 			Joins("join championships ON championships.id = races.championship").
 			Joins("join layouts ON layouts.id = races.layout").
@@ -66,7 +66,7 @@ func (r RacesRepository) GetRacesByTeam(teamName string) ([]models.Race, error) 
 	return r.selectRacesWithQuery(func(dbRaces *[]Race) *gorm.DB {
 		return r.Db.
 			Distinct().
-			Select("races.name, races.datetime", "championships.name AS championship", "tracks.name AS track", "layouts.name AS layout", "tracks.nation as track_nation", "tracks.location as track_location").
+			Select("races.name, races.datetime", "championships.name AS championship_name", "championship.year AS championship_year", "tracks.name AS track", "layouts.name AS layout", "tracks.nation as track_nation", "tracks.location as track_location").
 			Joins("join championships on races.championship = championships.id").
 			Joins("join entries on championships.id = entries.championship").
 			Joins("join layouts ON layouts.id = races.layout").
@@ -80,7 +80,7 @@ func (r RacesRepository) GetDriversRacesByNationality(nation string) ([]models.R
 	return r.selectRacesWithQuery(func(dbRaces *[]Race) *gorm.DB {
 		return r.Db.
 			Distinct().
-			Select("races.name, races.datetime", "championships.name AS championship", "tracks.name AS track", "layouts.name AS layout", "tracks.nation as track_nation", "tracks.location as track_location").
+			Select("races.name, races.datetime", "championships.name AS championship_name", "championship.year AS championship_year", "tracks.name AS track", "layouts.name AS layout", "tracks.nation as track_nation", "tracks.location as track_location").
 			Joins("join championships on races.championship = championships.id").
 			Joins("join entries on championships.id = entries.championship").
 			Joins("join driver_entries on  driver_entries.entry = entries.id").

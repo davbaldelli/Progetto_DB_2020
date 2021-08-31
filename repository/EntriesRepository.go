@@ -70,7 +70,11 @@ func (e EntriesRepository) GetChampionshipEntryList(championship models.Champion
 
 	var driversEntry []DriverEntryId
 
-	if err := e.Db.Table("driver_entries").Select("drivers.*", "driver_entries.entry", "driver_entries.entry as entry_id").Joins("join drivers on driver_entries.driver = drivers.cf").Where("driver_entries.entry IN ?", entriesId).Find(&driversEntry).Debug().Error; err != nil {
+	if err := e.Db.Table("driver_entries").
+		Select("drivers.*", "driver_entries.entry", "driver_entries.entry as entry_id").
+		Joins("join drivers on driver_entries.driver = drivers.cf").
+		Where("driver_entries.entry IN ?", entriesId).
+		Find(&driversEntry).Debug().Error; err != nil {
 		return nil, err
 	}
 
