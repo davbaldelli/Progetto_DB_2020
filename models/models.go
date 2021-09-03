@@ -6,6 +6,12 @@ type Transmission string
 type Drivetrain string
 type LayoutType string
 type Sex string
+type FinalPosition int
+
+const (
+	DNF FinalPosition = -1
+	DNS FinalPosition = -2
+)
 
 const (
 	Male   Sex = "M"
@@ -79,6 +85,7 @@ type Race struct {
 	Track        Track
 	LayoutName   string
 	Championship Championship
+	RaceResult []Result
 }
 
 type Entry struct {
@@ -123,4 +130,9 @@ type TrackUsage struct {
 
 type CarClass struct {
 	Name string
+}
+
+type Result struct {
+	RaceNumber uint
+	Position FinalPosition
 }

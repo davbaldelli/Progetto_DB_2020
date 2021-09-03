@@ -7,6 +7,7 @@ type RacesController interface {
 	GetRacesByTeam(teamName string) ([]models.Race, error)
 	GetDriversRacesByNationality(nation string) ([]models.Race, error)
 	GetChampionshipRaces(championship models.Championship) ([]models.Race, error)
+	GetRaceResult(race models.Race) ([]models.Result, error)
 }
 
 type ChampionshipsController interface {
