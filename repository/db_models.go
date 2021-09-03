@@ -101,8 +101,3 @@ type Championship struct {
 	Races   []Race     `gorm:"foreignKey:championship"`
 	Classes []CarClass `gorm:"many2many:championship_classes;joinForeignKey:championship"`
 }
-
-type Result struct {
-	RaceNumber uint
-	Position int
-}
