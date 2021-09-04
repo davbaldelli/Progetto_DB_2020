@@ -41,6 +41,7 @@ func (w Web) Listen() {
 	router.HandleFunc("/race/nation/driver/{nation}", w.RacesHandler.GETRacesByDriversNation).Methods("GET")
 	router.HandleFunc("/race/class/{class}", w.RacesHandler.GETRacesByClass).Methods("GET")
 	router.HandleFunc("/race/{race}/championship/{champ}/{year}/result", w.RacesHandler.GETRacesResult).Methods("GET")
+	router.HandleFunc("/race/all", w.RacesHandler.GETAllRaces).Methods("GET")
 
 	router.HandleFunc("/entry/championship/{name}/{year}", w.EntriesHandler.GETChampionshipEntries).Methods("GET")
 	router.HandleFunc("/entry/championship/{name}/{year}/{number}", w.EntriesHandler.GETEntryByRaceNumber).Methods("GET")

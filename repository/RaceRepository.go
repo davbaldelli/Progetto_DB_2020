@@ -44,6 +44,17 @@ func dbRaceToEntity(dbRace champRace) models.Race {
 	}
 }
 
+func (r RacesRepository) GetAllRaces() ([]models.Race, error) {
+	return r.selectRacesWithQuery(func(dbRaces *[]champRace) *gorm.DB {
+		return r.Db.Table("races").
+			Select("races.name, races.datetime", "championships.name AS championship_name", "championships.year AS championship_year",
+				"tracks.name AS track", "layouts.name AS layout", "tracks.nation as track_nation", "tracks.location as track_location").
+			Joins("join championships ON championships.id = races.championship").
+			Joins("join layouts ON layouts.id = races.layout").
+			Joins("join tracks ON layouts.track = tracks.name").Find(&dbRaces)
+	})
+}
+
 func (r RacesRepository) GetRaceResult(race models.Race) ([]models.Result, error) {
 	var results []models.Result
 

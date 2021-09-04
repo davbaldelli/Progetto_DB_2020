@@ -33,6 +33,14 @@ func (r RacesHandler) GETRacesByClass(writer http.ResponseWriter, request *http.
 	}
 }
 
+func (r RacesHandler) GETAllRaces(writer http.ResponseWriter, _ *http.Request) {
+	if races, err := r.Ctrl.GetAllRaces(); err != nil {
+		respondError(writer, http.StatusInternalServerError, err)
+	} else {
+		respondJSON(writer, http.StatusOK, races)
+	}
+}
+
 func (r RacesHandler) GETRacesByTeam(writer http.ResponseWriter, request *http.Request) {
 	params := mux.Vars(request)
 	team := params["team"]
