@@ -68,6 +68,8 @@ func (w Web) Listen() {
 
 	router.HandleFunc("/nation/all", w.NationsHandler.GETAllNations).Methods("GET")
 
+	router.HandleFunc("/driver/new", w.DriversHandler.POSTNewDriver).Methods("POST")
+
 	c := cors.New(cors.Options{
 		AllowedOrigins:   []string{"*"},
 		AllowCredentials: true,

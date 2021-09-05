@@ -3,6 +3,7 @@ package repository
 import (
 	"ProgettoDB/models"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type DriverRepository struct {
@@ -25,6 +26,24 @@ func dbDriversToModels(dbDrivers []Driver) []models.Driver {
 	}
 
 	return drivers
+}
+
+func (d DriverRepository) InsertDriver(driver models.Driver) error {
+	dbDriver := Driver{
+		Cf:        driver.CF,
+		Name:      driver.Name,
+		Surname:   driver.Surname,
+		Birthdate: driver.Birthdate,
+		Nation:    driver.Nation,
+		Sex:       driver.Sex,
+	}
+
+	if res := d.Db.Clauses(clause.OnConflict{DoNothing: true}).Create(&dbDriver); res.Error != nil {
+		return res.Error
+	}
+
+	return nil
+
 }
 
 func (d DriverRepository) GetAllDrivers() ([]models.Driver, error) {

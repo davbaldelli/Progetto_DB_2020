@@ -42,6 +42,7 @@ type ClassesController interface {
 type DriversController interface {
 	GetAllDrivers() ([]models.Driver, error)
 	GetFiveDriversWithMoreRaces() ([]models.DriverRaces, error)
+	InsertDriver(driver models.Driver) error
 }
 
 type NationsController interface {
