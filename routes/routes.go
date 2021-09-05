@@ -2,8 +2,10 @@ package routes
 
 import (
 	"ProgettoDB/routes/handlers"
+	"crypto/tls"
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
+	"golang.org/x/crypto/acme/autocert"
 	"log"
 	"net/http"
 )
@@ -77,7 +79,7 @@ func (w Web) Listen() {
 
 	handler := c.Handler(router)
 
-	/*
+
 		certManager := autocert.Manager{
 			Prompt:     autocert.AcceptTOS,
 			HostPolicy: autocert.HostWhitelist("api.prgdb.davidebaldelli.it"),
@@ -101,9 +103,9 @@ func (w Web) Listen() {
 		}()
 
 		log.Fatal(server.ListenAndServeTLS("", ""))
-	*/
 
-	log.Fatal(http.ListenAndServe("0.0.0.0"+
+
+	/*log.Fatal(http.ListenAndServe("0.0.0.0"+
 		":1234", handler))
-
+*/
 }

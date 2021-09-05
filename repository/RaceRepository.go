@@ -58,7 +58,7 @@ func (r RacesRepository) GetAllRaces() ([]models.Race, error) {
 func (r RacesRepository) GetRaceResult(race models.Race) ([]models.Result, error) {
 	var results []models.Result
 
-	if err := r.Db.Table("races").
+	if err := r.Db.Table("races").Debug().
 		Select("entries.race_number", "results.position").
 		Joins("JOIN results ON results.race = races.id").
 		Joins("JOIN entries ON entries.id = results.entry").
