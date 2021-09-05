@@ -82,7 +82,7 @@ func (w Web) Listen() {
 
 		certManager := autocert.Manager{
 			Prompt:     autocert.AcceptTOS,
-			HostPolicy: autocert.HostWhitelist("api.prgdb.davidebaldelli.it"),
+			HostPolicy: autocert.HostWhitelist("api.progdb.davidebaldelli.it"),
 			Cache:      autocert.DirCache("certs"),
 		}
 
